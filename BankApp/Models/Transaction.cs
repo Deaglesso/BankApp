@@ -54,6 +54,7 @@ namespace BankApp.Models
             }
 		}
 
+		// Constructor
         public Transaction(decimal amount, bool transactionType)
         {
 			TransactionID = $"TID{Count++}";
