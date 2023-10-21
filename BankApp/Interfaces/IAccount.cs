@@ -8,10 +8,11 @@ namespace BankApp.Interfaces
 {
     internal interface IAccount
     {
+        //Properties
         string AccountID { get; }
         decimal Balance { get; }
 
-        
+        //Methods
         public void Deposit(decimal amount);
         public void Withdraw(decimal amount);
 
