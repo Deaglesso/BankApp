@@ -1,4 +1,5 @@
-﻿using BankApp.Interfaces;
+﻿using BankApp.Exceptions;
+using BankApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +10,52 @@ namespace BankApp.Models
 {
     internal class Account : IAccount
     {
-        public string AccountID;
+        private static int Count = 1;
+        public string AccountID { get;  }
 
-        public decimal Balance;
+        public decimal Balance { get; set; }
 
         private List<Transaction> Transactions { get; set; }
+        
+
+        public Account(decimal balance)
+        {
+            AccountID = $"ACC{Count++}";
+            Balance = balance;
+        }
 
         public void Deposit(decimal amount)
         {
-            throw new NotImplementedException();
+            if (amount < 0)
+            {
+                throw new InvalidAmountException();
+            }
+
+            else 
+            { 
+                Balance += amount;
+                Transaction transaction = new Transaction(amount,true);
+                Transactions.Add(transaction);
+            }
         }
 
         public void Withdraw(decimal amount)
         {
-            throw new NotImplementedException();
+            if(amount < 0)
+            {
+                throw new InvalidAmountException();
+            }
+
+            else if(Balance >= amount) 
+            {
+                Balance -= amount;
+                Transaction transaction = new Transaction(amount, false);
+                Transactions.Add(transaction);
+            }
+            else
+            {
+                throw new InsufficientFundsException();
+            }
         }
     }
 }

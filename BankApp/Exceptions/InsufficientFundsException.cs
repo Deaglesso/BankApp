@@ -8,6 +8,9 @@ namespace BankApp.Exceptions
 {
     internal class InsufficientFundsException : Exception
     {
-
+        public InsufficientFundsException(string message = "Insufficient Funds!"):base(message) 
+        {
+             
+        }
     }
 }
