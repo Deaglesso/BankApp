@@ -9,7 +9,7 @@ namespace BankApp.Interfaces
     internal interface IAccount
     {
         //Properties
-        string AccountID { get; }
+        int AccountID { get; }
         decimal Balance { get; }
 
         //Methods

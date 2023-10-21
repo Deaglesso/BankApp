@@ -11,16 +11,16 @@ namespace BankApp.Models
     internal class Account : IAccount
     {
         private static int Count = 1;
-        public string AccountID { get;  }
+        public int AccountID { get;  }
 
         public decimal Balance { get; set; }
 
-        private List<Transaction> Transactions { get; set; }
+        private static List<Transaction> Transactions { get; set; } = new List<Transaction>();
         
 
         public Account(decimal balance)
         {
-            AccountID = $"ACC{Count++}";
+            AccountID = Count++;
             Balance = balance;
         }
 

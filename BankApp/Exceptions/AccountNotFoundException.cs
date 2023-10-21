@@ -8,6 +8,7 @@ namespace BankApp.Exceptions
 {
     internal class AccountNotFoundException : Exception
     {
-
+        public AccountNotFoundException(string name = "Account not found!") : base(name) { }    
+        
     }
 }

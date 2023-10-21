@@ -9,8 +9,8 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            
-
+            Bank bank = new Bank();
+            Console.WriteLine("Welcome to bank");
         }
     }
 }
