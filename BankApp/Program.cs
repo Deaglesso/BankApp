@@ -1,6 +1,7 @@
 ﻿using BankApp.Exceptions;
 using BankApp.Models;
 using System;
+using System.ComponentModel.Design;
 
 //true is deposit 
 //false is withdraw
@@ -13,12 +14,13 @@ namespace BankApp
         {
             //non optimized try catch
             //tested
-            RunApp();
+            //RunApp();
             
 
 
             //optimized try catch
             //not tested
+            //UPDATE : MOSTLY TESTED AND MUCH BETTER USE RUNAPP2
             RunApp2();
 
         }
@@ -29,12 +31,12 @@ namespace BankApp
             Console.WriteLine("WELCOME TO BANK APPLICATION");
             Console.WriteLine("===========================");
             Console.WriteLine("     :: MAIN MENU ::\n");
-            Console.WriteLine("1. Create new Account");
-            Console.WriteLine("2. Deposit Money");
-            Console.WriteLine("3. Withdraw Money");
-            Console.WriteLine("4. List of all Accounts");
-            Console.WriteLine("5. Transfer between");
-            Console.WriteLine("0. Exit");
+            Console.WriteLine("[1] Create new Account");
+            Console.WriteLine("[2] Deposit Money");
+            Console.WriteLine("[3] Withdraw Money");
+            Console.WriteLine("[4] List of all Accounts");
+            Console.WriteLine("[5] Transfer between");
+            Console.WriteLine("[0] Exit");
         }
         
         public static void RunApp()
@@ -67,8 +69,9 @@ namespace BankApp
 
                         try
                         {
-                            if (decimal.TryParse(inputcr, out numbercr) && numbercr > 0)
+                            if (decimal.TryParse(inputcr, out numbercr) && numbercr >= 0)
                             {
+
                                 Console.WriteLine($"Account created with {numbercr} balance!");
                                 bank.CreateAccount(numbercr);
 
@@ -751,7 +754,7 @@ namespace BankApp
                             decimal numbercr;
 
                             
-                                if (decimal.TryParse(inputcr, out numbercr) && numbercr > 0)
+                                if (decimal.TryParse(inputcr, out numbercr) && numbercr >= 0)
                                 {
                                     Console.WriteLine($"Account created with {numbercr} balance!");
                                     bank.CreateAccount(numbercr);
@@ -903,7 +906,15 @@ namespace BankApp
                                 
 
                             }
+                            if(bank[idwd].Balance == 0)
+                            {
+                                Console.WriteLine("You cannot withdraw with 0 balance.");
 
+                                
+                                input = "mm";
+                                throw new InsufficientFundsException();
+                                
+                            }
                             while (!amountvalidwd)
                             {
                                 
@@ -946,12 +957,70 @@ namespace BankApp
                             Console.Clear();
                             Console.WriteLine(":: LIST OF ALL ACCOUNTS :: ");
                             Console.WriteLine();
-                            bank.ShowAllAccounts();
+                            
+                            if(bank.AccountsGetCount() != 0)
+                            {
+                                bank.ShowAllAccounts();
+                            }
+                            else
+                            {
+                                Console.WriteLine("No Accounts");
+                                Console.WriteLine("Press any key to return.");
+                                Console.ReadKey();
+                                input = "mm";
+                                goto Start;
+                            }
                             Console.WriteLine();
-                            Console.Write("Press any key to return back!");
-                            Console.ReadKey();
 
-                            input = "mm";
+                            Console.WriteLine("Press enter ID to view Transaction history or 0 to return.");
+                            string choice = Console.ReadLine();
+                            int id4;
+                            if (choice == "0")
+                            {
+                                input = "mm";
+                                goto Start;
+                            }
+                            else
+                            {
+                                if (int.TryParse(choice, out id4) && id4 > 0)
+                                {
+
+                                    if (id4 <= bank.AccountsGetCount())
+                                    {
+
+                                        idvalid = true;
+                                        Console.WriteLine($"{id4} account's transaction list:");
+                                        if (bank[id4].GetTransactions() == null)
+                                        {
+                                            Console.WriteLine("Transaction history is empty!");
+                                            Console.WriteLine("Press any key to return.");
+
+                                        }
+                                        else
+                                        {
+                                            bank[id4].ShowTransactions();
+                                            Console.WriteLine("Press any key to return.");
+
+                                        }
+
+                                        Console.ReadKey();
+                                    }
+                                    else
+                                    {
+                                        throw new AccountNotFoundException();
+
+                                    }
+
+
+
+                                }
+                                else
+                                {
+                                    throw new InvalidAmountException();
+                                }
+                            }
+
+                            
                             break;
                         //////////////////////////////////////////////////
                         case "5":
@@ -1038,7 +1107,15 @@ namespace BankApp
 
                             }
 
-
+                            if (idtr1 == idtr2)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("Cannot transfer between same accounts!");
+                                Console.WriteLine("Press any key to return!");
+                                Console.ReadKey();
+                                input = "mm";
+                                goto Start;
+                            }
                             while (!amountvalidtr)
                             {
                                 

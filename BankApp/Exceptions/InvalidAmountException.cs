@@ -8,7 +8,7 @@ namespace BankApp.Exceptions
 {
     internal class InvalidAmountException : Exception
     {
-        public InvalidAmountException(string message = "Invalid Amount!"):base(message) 
+        public InvalidAmountException(string message = "Invalid Value!"):base(message) 
         {
             
         }

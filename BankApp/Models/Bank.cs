@@ -12,12 +12,14 @@ namespace BankApp.Models
 
         public void CreateAccount(decimal startBalance)
         {
-            Account account = new Account(startBalance);
+            Account account = new Account();
+            account.Deposit(startBalance);
             Accounts.Add(account);
         }
         public void DepositMoney(int id,decimal amount) 
         {
             Accounts[id-1].Deposit(amount);
+            
 
         }
         public void WithdrawMoney(int id, decimal amount)
@@ -36,7 +38,7 @@ namespace BankApp.Models
         {
             foreach (Account account in Accounts)
             {
-                Console.WriteLine($"{account.AccountID}: {account.Balance}");
+                Console.WriteLine($"[ID: {account.AccountID}] {account.Balance}");
             }
         }
 

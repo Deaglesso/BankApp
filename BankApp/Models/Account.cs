@@ -18,10 +18,10 @@ namespace BankApp.Models
         private List<Transaction> Transactions { get; set; } = new List<Transaction>();
         
 
-        public Account(decimal balance)
+        public Account()
         {
             AccountID = Count++;
-            Balance = balance;
+            Balance = 0;
         }
 
         public void Deposit(decimal amount)
@@ -55,6 +55,40 @@ namespace BankApp.Models
             else
             {
                 throw new InsufficientFundsException();
+            }
+        }
+        public string GetTransactions()
+        {
+            string str;
+            foreach (var transaction in Transactions)
+            {
+                if (transaction.TransactionType)
+                {
+                    str = "Deposit";
+                }
+                else
+                {
+                    str = "Withdraw";
+                }
+                return $"Transaction ID: {transaction.TransactionID} Type: {str} Amount: {transaction.Amount} Date: {transaction.TransactionDate}";
+            }
+            return null;
+        }
+        public void ShowTransactions()
+        {
+            string str;
+            
+            foreach (var transaction in Transactions)
+            {
+                if (transaction.TransactionType)
+                {
+                    str = "Deposit";
+                }
+                else
+                {
+                    str = "Withdraw";
+                }
+                Console.WriteLine($"Transaction ID: {transaction.TransactionID} | Type: {str} | Amount: {transaction.Amount} | Date: {transaction.TransactionDate}");
             }
         }
     }
