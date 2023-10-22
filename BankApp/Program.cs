@@ -842,6 +842,11 @@ namespace BankApp
                                     }
                                     else
                                     {
+                                        idvalid = false;
+                                        amountvalid = false;
+                                        iddp = 0;
+                                        numberdp = 0;
+                                    
                                         throw new InvalidAmountException();
                                     }
                                 
@@ -923,19 +928,48 @@ namespace BankApp
                                     inputwd = Console.ReadLine();
                                     if (decimal.TryParse(inputwd, out numberwd) && numberwd > 0)
                                     {
-                              
-                                            bank.WithdrawMoney(idwd, numberwd);
-                                            Console.WriteLine($"Withdraw operation successful! {numberwd} amount withdrew.");
-                                            Console.WriteLine($"Your new balance: {bank[idwd].Balance}");
-                                            Console.Write("Press any key to return back!");
-                                            Console.ReadKey();
-                                            input = "mm"; 
-                                            goto Start;
+                                        if(numberwd <= bank[idwd].Balance)
+                                        {
+                                        bank.WithdrawMoney(idwd, numberwd);
+                                        Console.WriteLine($"Withdraw operation successful! {numberwd} amount withdrew.");
+                                        Console.WriteLine($"Your new balance: {bank[idwd].Balance}");
+                                        Console.Write("Press any key to return back!");
+                                        Console.ReadKey();
+                                        
+                                        
+                                        
+                                        numberwd = 0;
+                                        amountvalidwd = true;
+                                        
+                                        goto Start;
+                                        }
+                                        else {
+
+                                        amountvalidwd = false;
+
+                                        numberwd = 0;
+
+                                        idvalidwd = false;
+                                        idwd = 0;
+                                        throw new InsufficientFundsException();
+
+
+
+                                    }
                                             
                                     }
                                     else
                                     {
-                                        throw new InvalidAmountException();
+                                    
+                                    amountvalidwd = false;
+                                    
+                                    numberwd = 0;
+
+                                    idvalidwd = false;
+                                    idwd = 0;
+
+                                    throw new InvalidAmountException();
+
                                     }
                                 
                                 
@@ -1126,37 +1160,71 @@ namespace BankApp
                                     inputtr = Console.ReadLine();
                                     if (decimal.TryParse(inputtr, out numbertr) && numbertr > 0)
                                     {
-              
-                                            bank.TransferMoney(idtr1, idtr2, numbertr);
+                                        if(numbertr <= bank[idtr1].Balance)
+                                        {
+                                        bank.TransferMoney(idtr1, idtr2, numbertr);
 
-                                            amountvalidtr = true;
-                                    Console.WriteLine($"Transfer operation successful! {numbertr} amount transfered.");
-                                    Console.WriteLine($"Source account's new balance: {bank[idtr1].Balance}");
-                                    Console.WriteLine($"Destination account's new balance: {bank[idtr2].Balance}");
-                                    Console.Write("Press any key to return back!");
-                                    Console.ReadKey();
+                                        amountvalidtr = true;
+                                        Console.WriteLine($"Transfer operation successful! {numbertr} amount transfered.");
+                                        Console.WriteLine($"Source account's new balance: {bank[idtr1].Balance}");
+                                        Console.WriteLine($"Destination account's new balance: {bank[idtr2].Balance}");
+                                        Console.Write("Press any key to return back!");
+                                        Console.ReadKey();
+                                        idvalidtr1 = false;
+                                        amountvalidtr = false;
+
+                                        idtr1 = 0;
+                                        numbertr = 0;
+
+                                        idvalidtr2 = false;
+
+                                        idtr2 = 0;
+                                        input = "mm";
+                                        goto Start;
+                                    }
+                                    else
+                                    {
+                                        amountvalidtr = false;
+
+                                        numbertr = 0;
+
+                                        idvalidtr1 = false;
+                                        idvalidtr2 = false;
+
+                                        idtr1 = 0;
+                                        idtr2 = 0;
+                                        throw new InsufficientFundsException();
+                                    }
+              
+                                            
+                                    }
+                                    else
+                                    {
                                     idvalidtr1 = false;
+                                    idvalidtr2 = false;
                                     amountvalidtr = false;
 
                                     idtr1 = 0;
+                                    idtr2 = 0;
                                     numbertr = 0;
 
-                                    idvalidtr2 = false;
 
-                                    idtr2 = 0;
-                                    input = "mm";
-                                    goto Start;
-                                }
-                                    else
-                                    {
-                                        throw new InvalidAmountException();
+                                    throw new InvalidAmountException();
                                     }
                             }
 
-                            
-                            
 
-                            
+
+                            idvalidtr1 = false;
+                            amountvalidtr = false;
+
+                            idtr1 = 0;
+                            numbertr = 0;
+
+                            idvalidtr2 = false;
+
+                            idtr2 = 0;
+
                             break;
                         ////////////////////////////////////////////////////
                         case "0":
@@ -1182,6 +1250,7 @@ namespace BankApp
                     {
                         input = "mm";
                         goto Start;
+
                     }
                 }
                 
