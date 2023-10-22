@@ -8,7 +8,7 @@ namespace BankApp.Models
 {
     internal class Bank
     {
-        private static List<Account> Accounts { get; set; } = new List<Account>();
+        private List<Account> Accounts { get; set; } = new List<Account>();
 
         public void CreateAccount(decimal startBalance)
         {
@@ -39,6 +39,17 @@ namespace BankApp.Models
                 Console.WriteLine($"{account.AccountID}: {account.Balance}");
             }
         }
+
+        public int AccountsGetCount()
+        {
+            return Accounts.Count;
+        }
+
+        public Account this[int index] 
+        {  
+            get { return Accounts[index-1]; } 
+        }
+
 
     }
 }

@@ -15,7 +15,7 @@ namespace BankApp.Models
 
         public decimal Balance { get; set; }
 
-        private static List<Transaction> Transactions { get; set; } = new List<Transaction>();
+        private List<Transaction> Transactions { get; set; } = new List<Transaction>();
         
 
         public Account(decimal balance)
