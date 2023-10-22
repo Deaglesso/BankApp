@@ -1132,6 +1132,8 @@ namespace BankApp
                                             }
                                             else
                                             {
+                                                idtr1 = 0;
+                                                idvalidtr1 = false;
                                                 throw new AccountNotFoundException();
 
                                             }
