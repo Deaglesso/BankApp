@@ -923,15 +923,15 @@ namespace BankApp
                                     inputwd = Console.ReadLine();
                                     if (decimal.TryParse(inputwd, out numberwd) && numberwd > 0)
                                     {
-
-
-                                       
+                              
                                             bank.WithdrawMoney(idwd, numberwd);
-
+                                            Console.WriteLine($"Withdraw operation successful! {numberwd} amount withdrew.");
+                                            Console.WriteLine($"Your new balance: {bank[idwd].Balance}");
+                                            Console.Write("Press any key to return back!");
+                                            Console.ReadKey();
+                                            input = "mm"; 
+                                            goto Start;
                                             
-                                        
-                                        
-
                                     }
                                     else
                                     {
@@ -943,7 +943,7 @@ namespace BankApp
 
 
                             Console.WriteLine($"Withdraw operation successful! {numberwd} amount withdrew.");
-                            Console.WriteLine($"Your balance: {bank[idwd].Balance}");
+                            Console.WriteLine($"Your new balance: {bank[idwd].Balance}");
                             Console.Write("Press any key to return back!");
                             Console.ReadKey();
                             idvalidwd = false;
@@ -1130,31 +1130,33 @@ namespace BankApp
                                             bank.TransferMoney(idtr1, idtr2, numbertr);
 
                                             amountvalidtr = true;
+                                    Console.WriteLine($"Transfer operation successful! {numbertr} amount transfered.");
+                                    Console.WriteLine($"Source account's new balance: {bank[idtr1].Balance}");
+                                    Console.WriteLine($"Destination account's new balance: {bank[idtr2].Balance}");
+                                    Console.Write("Press any key to return back!");
+                                    Console.ReadKey();
+                                    idvalidtr1 = false;
+                                    amountvalidtr = false;
 
-                                    }
+                                    idtr1 = 0;
+                                    numbertr = 0;
+
+                                    idvalidtr2 = false;
+
+                                    idtr2 = 0;
+                                    input = "mm";
+                                    goto Start;
+                                }
                                     else
                                     {
                                         throw new InvalidAmountException();
                                     }
                             }
 
-                            Console.WriteLine($"Transfer operation successful! {numbertr} amount transfered.");
-                            Console.WriteLine($"Source account's new balance: {bank[idtr1].Balance}");
-                            Console.WriteLine($"Destination account's new balance: {bank[idtr2].Balance}");
-                            Console.Write("Press any key to return back!");
-                            Console.ReadKey();
-                            idvalidtr1 = false;
-                            amountvalidtr = false;
-
-                            idtr1 = 0;
-                            numbertr = 0;
-
-                            idvalidtr2 = false;
-
-                            idtr2 = 0;
+                            
                             
 
-                            input = "mm";
+                            
                             break;
                         ////////////////////////////////////////////////////
                         case "0":
