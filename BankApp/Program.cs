@@ -915,7 +915,9 @@ namespace BankApp
                             {
                                 Console.WriteLine("You cannot withdraw with 0 balance.");
 
-                                
+
+                                idwd = 0;
+                                idvalidwd = false;
                                 input = "mm";
                                 throw new InsufficientFundsException();
                                 
@@ -1009,6 +1011,7 @@ namespace BankApp
                             Console.WriteLine("Press enter ID to view Transaction history or 0 to return.");
                             string choice = Console.ReadLine();
                             int id4;
+                            bool idvalid4= false;
                             if (choice == "0")
                             {
                                 input = "mm";
@@ -1022,7 +1025,7 @@ namespace BankApp
                                     if (id4 <= bank.AccountsGetCount())
                                     {
 
-                                        idvalid = true;
+                                        idvalid4 = true;
                                         Console.WriteLine($"{id4} account's transaction list:");
                                         if (bank[id4].GetTransactions() == null)
                                         {
@@ -1075,7 +1078,6 @@ namespace BankApp
                             while (!idvalidtr1)
                             {
 
-                                
                                     Console.WriteLine();
                                     Console.Write("Please enter ID of sender account: ");
                                     inputtr = Console.ReadLine();
@@ -1104,7 +1106,13 @@ namespace BankApp
                                 
                             }
 
-                            
+                            if (bank[idtr1].Balance == 0)
+                            {
+                                idvalidtr1 = false;
+                                idtr1 = 0;
+                                throw new InsufficientFundsException();
+
+                            }
 
 
                             while (!idvalidtr2)
